@@ -7,6 +7,7 @@ plugins {
 group 'io.netty.echo'
 version '1.0-SNAPSHOT'
 
+archivesBaseName = 'nettyEcho'
 sourceCompatibility = 1.11
 
 repositories {
@@ -35,14 +36,9 @@ dependencies {
 }
 
 jar {
-    baseName 'nettyEcho'
     manifest {
         attributes "Main-Class": "$mainClassName"
     }
-}
-
-run {
-    systemProperties System.getProperties()
 }
 
 build {
