@@ -42,6 +42,6 @@ nc localhost 4040
 ````
 
 After connecting to the server, type a message and press ENTER.
-The server should sent echo to the terminal.
+The server should send echo to the terminal.
 
 Note: I only tested with [`GNU netcat`](http://netcat.sourceforge.net/)
