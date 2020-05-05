@@ -4,17 +4,15 @@ plugins {
     id 'idea'
 }
 
-group 'io.netty.echo'
-version '1.0-SNAPSHOT'
-
-archivesBaseName = 'nettyEcho'
 sourceCompatibility = 1.11
+group = 'io.netty.echo'
+archivesBaseName = 'nettyEcho'
+version = '1.0-SNAPSHOT'
+mainClassName = 'io.netty.echo.Main'
 
 repositories {
     mavenCentral()
 }
-
-mainClassName = 'io.netty.echo.Main'
 
 dependencies {
     // logger
