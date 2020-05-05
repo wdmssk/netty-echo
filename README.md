@@ -16,7 +16,7 @@ Run the following command in the project root directory.
 gradle clean build
 ````
 
-The "fat-jar" will be created as `./build/libs/netty-echo-<version>-all.jar`.
+The "fat-jar" will be created as `./build/libs/nettyEcho-<version>-all.jar`.
 
 
 ## 3. Starting the Server
