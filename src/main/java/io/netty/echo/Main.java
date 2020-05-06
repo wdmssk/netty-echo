@@ -1,6 +1,7 @@
 package io.netty.echo;
 
 import io.vavr.control.Try;
+import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
@@ -24,7 +25,7 @@ public final class Main {
             return;
         }
 
-        Try<Integer> localPort = getLocalPort(args, optns);
+        Try<Integer> localPort = getLocalPort(getCommandLine(args, optns));
         localPort.onFailure(ex -> System.exit(1));
 
         logger.info("Starting echo server on local port {}.", localPort.get());
@@ -55,13 +56,17 @@ public final class Main {
     }
 
 
-    private static Try<Integer> getLocalPort(String[] args, Options optns) {
+    private static Try<Integer> getLocalPort(Try<CommandLine> commandLine) {
+        return commandLine
+                .flatMap(cmndLine -> Try.of(() -> cmndLine.getParsedOptionValue(P_OPTN).toString())
+                                        .onFailure(ex -> System.err.println(ex.getMessage())))
+                .flatMap(port -> Try.of(() -> Integer.valueOf(port))
+                                    .onFailure(
+                                            ex -> System.err.println("Failed to convert to int. " + ex.getMessage())));
+    }
+
+    private static Try<CommandLine> getCommandLine(String[] args, Options optns) {
         return Try.of(() -> new DefaultParser().parse(optns, args))
-                  .onFailure(ex -> System.err.println(ex.getMessage()))
-                  .flatMap(cmndLine -> Try.of(() -> cmndLine.getParsedOptionValue(P_OPTN).toString())
-                                          .onFailure(ex -> System.err.println(ex.getMessage())))
-                  .flatMap(port -> Try.of(() -> Integer.valueOf(port))
-                                      .onFailure(ex -> System.err
-                                              .println("Failed to convert to int. " + ex.getMessage())));
+                  .onFailure(ex -> System.err.println(ex.getMessage()));
     }
 }
