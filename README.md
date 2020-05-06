@@ -22,7 +22,7 @@ The "fat-jar" will be created as `./build/libs/nettyEcho-<version>-all.jar`.
 ## 3. Starting the Server
 
 ````bash
-java -jar netty-echo-<version>-all.jar -p  [port]
+java -jar netty-echo-<version>-all.jar -p  <port>
 ````
 e.g.:
 ````bash

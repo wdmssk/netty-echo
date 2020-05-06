@@ -15,7 +15,7 @@ public final class Main {
     public static final String H_OPTN = "h";
     public static final String P_OPTN = "p";
 
-    public static final String JAR_FILE_NAME = "nettyEcho-1.0-SNAPSHOT";
+    public static final String JAR_FILE_NAME = "nettyEcho-1.0-SNAPSHOT-all.jar";
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -25,7 +25,7 @@ public final class Main {
             return;
         }
 
-        Try<Integer> localPort = getLocalPort(getCommandLine(args, optns));
+        Try<Integer> localPort = getLocalPort(getCommandLine(optns, args));
         localPort.onFailure(ex -> System.exit(1));
 
         logger.info("Starting echo server on local port {}.", localPort.get());
@@ -43,9 +43,8 @@ public final class Main {
         Options options = new Options();
         options.addOption(helpOption);
 
-        Try<Boolean> hasHelpOptn = Try.of(() -> new DefaultParser().parse(options, args, true))
-                                      .onFailure(ex -> System.err.println(ex.getMessage())) // unexpected exception
-                                      .map(commandLine -> commandLine.hasOption(helpOption.getOpt()));
+        Try<Boolean> hasHelpOptn = getCommandLine(options, args)
+                .map(commandLine -> commandLine.hasOption(helpOption.getOpt()));
 
         return hasHelpOptn.isFailure() || hasHelpOptn.get();
     }
@@ -54,7 +53,6 @@ public final class Main {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp(JAR_FILE_NAME, options, true);
     }
-
 
     private static Try<Integer> getLocalPort(Try<CommandLine> commandLine) {
         return commandLine
@@ -65,8 +63,8 @@ public final class Main {
                                             ex -> System.err.println("Failed to convert to int. " + ex.getMessage())));
     }
 
-    private static Try<CommandLine> getCommandLine(String[] args, Options optns) {
-        return Try.of(() -> new DefaultParser().parse(optns, args))
+    private static Try<CommandLine> getCommandLine(Options optns, String[] args) {
+        return Try.of(() -> new DefaultParser().parse(optns, args, true))
                   .onFailure(ex -> System.err.println(ex.getMessage()));
     }
 }
