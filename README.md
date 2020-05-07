@@ -34,7 +34,7 @@ java -jar netty-echo-<version>-all.jar -p 4040
 
 To quickly check if the server is working correctly, run netcat from a terminal:
 ````bash
-nc [server-ip-address] [port]
+nc <server-ip-address> <port>
 ````
 e.g.:
 ````bash

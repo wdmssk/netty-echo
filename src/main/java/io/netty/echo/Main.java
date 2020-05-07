@@ -20,6 +20,7 @@ public final class Main {
     public static void main(String[] args) throws InterruptedException {
 
         Options optns = getOptions();
+
         if (hasHelpOption(optns.getOption(H_OPTN), args)) {
             printHelp(optns);
             return;
@@ -39,19 +40,19 @@ public final class Main {
         return ret;
     }
 
-    private static boolean hasHelpOption(final Option helpOption, final String[] args) {
+    private static Boolean hasHelpOption(final Option helpOption, final String[] args) {
         Options options = new Options();
         options.addOption(helpOption);
 
-        Try<Boolean> hasHelpOptn = getCommandLine(options, args)
-                .map(commandLine -> commandLine.hasOption(helpOption.getOpt()));
-
-        return hasHelpOptn.isFailure() || hasHelpOptn.get();
+        // failure isn't expected with the helpOption
+        return getCommandLine(options, args)
+                .map(commandLine -> commandLine.hasOption(helpOption.getOpt()))
+                .get();
     }
 
     private static void printHelp(Options options) {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(JAR_FILE_NAME, options, true);
+        HelpFormatter helpFormatter = new HelpFormatter();
+        helpFormatter.printHelp(JAR_FILE_NAME, options, true);
     }
 
     private static Try<Integer> getLocalPort(Try<CommandLine> commandLine) {
