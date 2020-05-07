@@ -44,7 +44,7 @@ public final class Main {
         Options options = new Options();
         options.addOption(helpOption);
 
-        // failure isn't expected with the helpOption
+        // failure not expected with the helpOption
         return getCommandLine(options, args)
                 .map(commandLine -> commandLine.hasOption(helpOption.getOpt()))
                 .get();
