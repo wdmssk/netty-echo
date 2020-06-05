@@ -23,7 +23,6 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
 
     implementation group: 'info.picocli', name: 'picocli', version: '4.3.2'
-    implementation group: 'io.vavr', name: 'vavr', version: '0.10.2'
 
     implementation group: 'io.netty', name: 'netty-all', version: '4.1.48.Final'
 
